@@ -1,1 +1,1 @@
-web: gunicorn tutortrack_project.wsgi
+web: gunicorn TUTORTRACK.wsgi
