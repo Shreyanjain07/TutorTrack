@@ -1,5 +1,5 @@
 """
-WSGI config for tutortrack_project project.
+WSGI config for TUTORTRACK project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

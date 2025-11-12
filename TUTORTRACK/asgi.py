@@ -1,5 +1,5 @@
 """
-ASGI config for tutortrack_project project.
+ASGI config for TUTORTRACK project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
