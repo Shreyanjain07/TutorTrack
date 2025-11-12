@@ -1,0 +1,29 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Class</title>
+  {% tailwind_css %}
+</head>
+<body class="bg-gray-50 min-h-screen flex justify-center items-center">
+
+  <form method="post" class="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
+    {% csrf_token %}
+    <h1 class="text-2xl font-bold mb-6 text-center text-blue-600">Add New Class</h1>
+
+    <label class="block mb-2 text-gray-700">Class Name</label>
+    <input type="text" name="name" required class="w-full border px-4 py-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+    <label class="block mb-2 text-gray-700">Subject</label>
+    <input type="text" name="subject" required class="w-full border px-4 py-2 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+    <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded-lg hover:bg-blue-700 transition font-semibold">
+      Add Class
+    </button>
+
+    <a href="{% url 'dashboard' %}" class="block text-center text-blue-500 mt-4 hover:underline">Back to Dashboard</a>
+  </form>
+
+</body>
+</html>

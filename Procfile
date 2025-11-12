@@ -1,0 +1,1 @@
+web: gunicorn tutortrack_project.wsgi
