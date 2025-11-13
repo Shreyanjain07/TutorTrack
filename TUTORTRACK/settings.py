@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import psycopg2
 import dj_database_url
 from pathlib import Path
 
@@ -30,7 +31,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
+DATABASES["default"]["OPTIONS"] = {"sslmode": "require", "hostaddr": "0.0.0.0"}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
