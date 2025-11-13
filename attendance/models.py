@@ -29,7 +29,7 @@ class Attendance(models.Model):
     end_time = models.DateTimeField()
     status = models.CharField(
         max_length=10,
-        choices=(('Present', 'Present'), ('Absent', 'Absent')),
+        choices=(('Present', 'Present'), ('Absent', 'Absent'), ('Cancelled', 'Cancelled')),
         default='Present'
     )
     remarks = models.TextField(blank=True, null=True)
