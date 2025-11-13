@@ -54,7 +54,7 @@
         <tbody>
           {% for a in attendance_records %}
           <tr class="hover:bg-blue-50 border-t">
-            <td class="px-4 py-2">{{ a.start_time|date:"d M Y" }}</td>
+            <td class="px-4 py-2">{{ a.date|date:"d M Y" }}</td>
             <td class="px-4 py-2">{{ a.student.name }}</td>
             <td class="px-4 py-2">
               {% if a.status == "Present" %}
@@ -95,7 +95,8 @@
 
         <label class="block mb-2 text-gray-700">Start Time</label>
         <input type="datetime-local" name="start_time" required class="w-full border px-3 py-2 rounded-md mb-3">
-
+        <label class="block mb-2 text-gray-700">Date</label>
+        <input type="date" name="date" required class="w-full border px-3 py-2 rounded-md mb-3">
         <label class="block mb-2 text-gray-700">End Time</label>
         <input type="datetime-local" name="end_time" required class="w-full border px-3 py-2 rounded-md mb-3">
 

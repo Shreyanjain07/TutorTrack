@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Sum
 from .models import ClassRoom, Student, Attendance
 from django.contrib import messages
-from datetime import timedelta, date
+from datetime import timedelta, datetime, time
 
 def dashboard(request):
     classes = ClassRoom.objects.all()
@@ -22,6 +22,7 @@ def class_detail(request, class_id):
 
     if request.method == 'POST':
         student_id = request.POST.get('student_id')
+        date = request.POST.get("date")
         start_time = request.POST.get('start_time')
         end_time = request.POST.get('end_time')
         status = request.POST.get('status')
@@ -31,6 +32,7 @@ def class_detail(request, class_id):
             student = get_object_or_404(Student, id=student_id)
             Attendance.objects.create(
                 student=student,
+                date = date,
                 start_time=start_time,
                 end_time=end_time,
                 status=status,
@@ -110,24 +112,34 @@ def delete_class(request, class_id):
 
 def public_view(request, class_id):
     classroom = get_object_or_404(ClassRoom, id=class_id)
-    students = classroom.students.all()
-    attendance_records = Attendance.objects.filter(student__in=students).order_by('-start_time')
+    attendance_records = Attendance.objects.filter(student__classroom=classroom)
 
-    # Compute total attendance hours and stats
-    total_present = attendance_records.filter(status="Present").count()
-    total_absent = attendance_records.filter(status="Absent").count()
+    total_present = attendance_records.filter(status='Present').count()
+    total_absent = attendance_records.filter(status='Absent').count()
+
+    # Calculate total hours safely
     total_hours = 0
+    for a in attendance_records:
+        try:
+            if isinstance(a.start_time, time) and isinstance(a.end_time, time):
+                # Handle older records that only have time (not datetime)
+                start_dt = datetime.combine(a.date, a.start_time)
+                end_dt = datetime.combine(a.date, a.end_time)
+            else:
+                # Normal case: start_time and end_time are datetimes
+                start_dt, end_dt = a.start_time, a.end_time
 
-    for record in attendance_records:
-        if record.end_time and record.start_time:
-            duration = record.end_time - record.start_time
-            total_hours += duration.total_seconds() / 3600
+            delta = (end_dt - start_dt).total_seconds() / 3600
+            total_hours += delta if delta > 0 else 0
+        except Exception:
+            continue  # Skip records with missing or invalid data
 
-    context = {
+    total_hours = round(total_hours, 2)
+
+    return render(request, 'public_view.html', {
         'classroom': classroom,
         'attendance_records': attendance_records,
         'total_present': total_present,
         'total_absent': total_absent,
-        'total_hours': round(total_hours, 1),
-    }
-    return render(request, 'public_view.html', context)
+        'total_hours': total_hours
+    })

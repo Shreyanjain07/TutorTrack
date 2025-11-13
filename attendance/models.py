@@ -38,9 +38,8 @@ class Attendance(models.Model):
     def total_hours(self):
         """Automatically calculate total hours for each record"""
         if self.start_time and self.end_time:
-            start_dt = datetime.combine(date.today(), self.start_time)
-            end_dt = datetime.combine(date.today(), self.end_time)
-            return round((end_dt - start_dt).seconds / 3600, 2)
+            delta = self.end_time - self.start_time
+            return round(delta.total_seconds() / 3600, 2)
         return 0
 
     def __str__(self):
