@@ -64,14 +64,14 @@ def add_student(request, class_id):
 
     if request.method == "POST":
         name = request.POST.get("name")
-        phone = request.POST.get("phone")
-        email = request.POST.get("email")
+        # phone = request.POST.get("phone")
+        # email = request.POST.get("email")
 
         if name:
             Student.objects.create(
                 name=name,
-                phone=phone,
-                email=email,
+                # phone=phone,
+                # email=email,
                 classroom=classroom  # make sure this matches your FK field name
             )
             return redirect('class_detail', class_id=classroom.id)
