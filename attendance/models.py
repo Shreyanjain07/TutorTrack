@@ -15,8 +15,8 @@ class Student(models.Model):
     classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE, related_name='students')
     name = models.CharField(max_length=100)
     parent_email = models.EmailField(blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
-    phone = models.CharField(max_length=15, blank=True, null=True)
+    # email = models.EmailField(blank=True, null=True)
+    # phone = models.CharField(max_length=15, blank=True, null=True)
     public_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
