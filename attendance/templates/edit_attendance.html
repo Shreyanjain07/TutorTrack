@@ -1,0 +1,41 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit attendance</title>
+    {% tailwind_css %}
+</head>
+<body  class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
+    <h2 class="text-xl font-semibold mb-4">Edit Attendance</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label class="block mb-2">Date</label>
+        <input type="date" name="date" value="{{ attendance.date|date:'Y-m-d' }}" class="w-full border px-3 py-2 rounded mb-3">
+
+        <label class="block mb-2">Start Time</label>
+        <input type="datetime-local" name="start_time" value="{{ attendance.start_time|date:'Y-m-d\\TH:i' }}" class="w-full border px-3 py-2 rounded mb-3">
+
+        <label class="block mb-2">End Time</label>
+        <input type="datetime-local" name="end_time" value="{{ attendance.end_time|date:'Y-m-d\\TH:i' }}" class="w-full border px-3 py-2 rounded mb-3">
+
+        <label class="block mb-2">Status</label>
+        <select name="status" class="w-full border px-3 py-2 rounded mb-3">
+            <option value="Present" {% if attendance.status == "Present" %}selected{% endif %}>Present</option>
+            <option value="Absent" {% if attendance.status == "Absent" %}selected{% endif %}>Absent</option>
+            <option value="Cancelled" {% if attendance.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+        </select>
+
+        <label class="block mb-2">Remarks</label>
+        <textarea name="remarks" class="w-full border px-3 py-2 rounded mb-3">{{ attendance.remarks }}</textarea>
+
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">
+            Update Attendance
+        </button>
+    </form>
+
+</div>
+</body>
+</html>

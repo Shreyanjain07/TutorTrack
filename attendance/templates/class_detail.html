@@ -31,7 +31,7 @@
         class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
         Delete Class
         </a>
-        <button onclick="copyLink()" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition">
+        <button onclick="copyLink()" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 cursor-pointer transition">
           📎 Copy Public Link
         </button>
       </div>
@@ -49,6 +49,7 @@
             <th class="px-4 py-2 text-left">Start</th>
             <th class="px-4 py-2 text-left">End</th>
             <th class="px-4 py-2 text-left">Remarks</th>
+            <th class="px-4 py-2 text-left">Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -62,13 +63,14 @@
               {% elif a.status == "Absent" %}
                 <span class="bg-red-100 text-red-700 px-2 py-1 rounded-md">Absent</span>
               {% else %}
-                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-md">Cancelled </span>
+                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-md">Cancelled</span>
               {% endif %}
             </td>
             <td class="px-4 py-2">{{ a.start_time|time:"H:i" }}</td>
             <td class="px-4 py-2">{{ a.end_time|time:"H:i" }}</td>
             <td class="px-4 py-2">{{ a.remarks }}</td>
-          </tr>
+            <td class="px-2 py-2"> <a href="{% url 'edit_attendance' a.id %}" class ="px-4 py-1 rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white" >Edit</a></td>
+          </tr>   
           {% endfor %}
         </tbody>
       </table>

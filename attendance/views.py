@@ -89,25 +89,24 @@ def delete_class(request, class_id):
     return render(request, 'delete_class.html', {'classroom': classroom})
 
 
-    #  Weekly/monthly summaries
-    today = date.today()
-    week_start = today - timedelta(days=today.weekday())
-    week_end = week_start + timedelta(days=6)
-    month_start = date(today.year, today.month, 1)
+def edit_attendance(request, attendance_id):
+    attendance = get_object_or_404(Attendance, id = attendance_id)
 
-    attendance_this_week = Attendance.objects.filter(
-        student__classroom=classroom,
-        date__range=[week_start, week_end],
-        status='Present'
-    )
+    if request.method == "POST":
+        attendance.status = request.POST.get('status')
+        attendance.start_time = request.POST.get('start_time')
+        attendance.end_time = request.POST.get('end_time')
+        attendance.remarks = request.POST.get('remarks')
+        attendance.date = request.POST.get('date')
 
-    attendance_records = Attendance.objects.filter(student__classroom=classroom).order_by('-date')
+        attendance.save()
+        return redirect(f'/class/{attendance.student.classroom.id}/')
+    
+    return render (request, "edit_attendance.html", {"attendance": attendance})
 
-    return render(request, 'class_detail.html', {
-        'classroom': classroom,
-        'students': students,
-        'attendance_records': attendance_records,
-    })
+
+
+
 
 
 def public_view(request, class_id):
